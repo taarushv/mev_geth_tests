@@ -1,0 +1,5 @@
+.DS_Store
+tsconfig.json
+dist/
+lib._esm
+tsconfig.tsbuildinfo

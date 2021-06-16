@@ -1,0 +1,8 @@
+{
+  "name": "eip1559_mev-geth_tests",
+  "version": "0.1",
+  "main": "src/index.js",
+  "repository": "https://github.com/taarushv/eip1559_mev-geth_tests.git",
+  "author": "Taarush Vemulapalli <saikarthiktaarush.vemulapalli@sjsu.edu>",
+  "license": "MIT"
+}

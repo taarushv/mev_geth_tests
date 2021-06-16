@@ -1,0 +1,42 @@
+{
+  "author": "Richard Moore <me@ricmoo.com>",
+  "dependencies": {
+    "ethers": "^5.2.0"
+  },
+  "description": "ASM libraries and tools for the Ethereum EVM.",
+  "ethereum": "donations.ethers.eth",
+  "funding": [
+    {
+      "type": "individual",
+      "url": "https://gitcoin.co/grants/13/ethersjs-complete-simple-and-tiny-2"
+    },
+    {
+      "type": "individual",
+      "url": "https://www.buymeacoffee.com/ricmoo"
+    }
+  ],
+  "keywords": [
+    "Ethereum",
+    "asm",
+    "evm"
+  ],
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "module": "./lib.esm/index.js",
+  "name": "@ethersproject/asm",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "directory": "packages/asm",
+    "type": "git",
+    "url": "git://github.com/ethers-io/ethers.js.git"
+  },
+  "scripts": {
+    "generate": "node ./generate.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "tarballHash": "0xf903345c132095391c2259543c97dcac983d1ba94f75c60adb9e0026ce031086",
+  "types": "./lib/index.d.ts",
+  "version": "5.2.0"
+}

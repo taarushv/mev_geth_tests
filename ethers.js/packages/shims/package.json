@@ -1,0 +1,39 @@
+{
+  "_ethers_nobuild": true,
+  "author": "Richard Moore <me@ricmoo.com>",
+  "browser": "./dist/index.min.js",
+  "dependencies": {},
+  "description": "Shims required for ethers in constrained environments.",
+  "ethereum": "donations.ethers.eth",
+  "funding": [
+    {
+      "type": "individual",
+      "url": "https://gitcoin.co/grants/13/ethersjs-complete-simple-and-tiny-2"
+    },
+    {
+      "type": "individual",
+      "url": "https://www.buymeacoffee.com/ricmoo"
+    }
+  ],
+  "keywords": [
+    "Ethereum",
+    "ethers"
+  ],
+  "license": "MIT",
+  "main": "./src/index.js",
+  "name": "@ethersproject/shims",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "directory": "packages/shims",
+    "type": "git",
+    "url": "git://github.com/ethers-io/ethers.js.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "tarballHash": "0x96d57ad34908004f0c9ce05d962bcab53e9250b7e672a519a712a8ff6c828a36",
+  "types": "./lib/index.d.ts",
+  "version": "5.2.0"
+}

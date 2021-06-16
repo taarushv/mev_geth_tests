@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "outDir": "./lib/",
+    "resolveJsonModule": true,
+    "rootDir": "./src.ts"
+  },
+  "exclude": [],
+  "extends": "../../tsconfig.package.json",
+  "include": [
+    "./thirdparty.d.ts",
+    "./src.ts/test-contract.json",
+    "./src.ts/*.ts"
+  ]
+}
