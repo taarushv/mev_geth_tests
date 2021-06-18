@@ -1,0 +1,106 @@
+#!/bin/bash
+
+declare NODES="eth1 eth2 eth3"
+
+function start {
+  docker start ethbn eth1 eth2 eth3
+  sleep 5
+  echo "Start: starting network..."
+  bootnodeIp=`docker inspect ethbn -f "{{.NetworkSettings.Networks.ethnet.IPAddress}}"`
+  echo "Start: starting bootnode..."
+  docker exec -u user -d ethbn bash config/bootnode.sh $bootnodeIp
+  sleep 10
+  echo "Start: starting eth1, eth2, eth3..."
+  docker exec -u user -d eth1 bash config/node.sh start
+  docker exec -u user -d eth2 bash config/node.sh start
+  docker exec -u user -d eth3 bash config/node.sh start
+  echo "Start: starting netstat node..."
+  docker rm netstat
+  docker run -dP --network ethnet --name netstat -it -h netstat netstat-img
+}
+
+function show_info {
+  netstatIp=`docker inspect netstat -f "{{.NetworkSettings.Networks.ethnet.IPAddress}}"`
+  echo "Nestat: http://$netstatIp:3000"
+  echo "Accounts:"
+  for node in $NODES; do
+    IP=`docker inspect $node -f "{{.NetworkSettings.Networks.ethnet.IPAddress}}"`
+    echo "	"$node: `curl $IP:9091 -s | sed 's/\"//g'`
+  done
+}
+
+if [[ $1 = "start" ]]; then
+  start
+  exit
+fi
+
+if [[ $1 = "stop" ]]; then
+  echo "Stop: stopping node processes..."
+  docker exec -u user -d ethbn bash config/node.sh stop
+  docker exec -u user -d eth1  bash config/node.sh stop
+  docker exec -u user -d eth2  bash config/node.sh stop
+  docker exec -u user -d eth3  bash config/node.sh stop
+  echo "Stop: stopping node instances..."
+  docker stop ethbn eth1 eth2 eth3 netstat
+  exit
+fi
+
+if [[ $1 = "deploy" ]]; then
+  docker rm -f `docker ps -aq` # delete old containers
+  docker rm -f netstat
+  docker network rm ethnet
+  docker network create --driver bridge ethnet # create custom network
+
+  # 1 bootnode + 3 mining nodes
+  echo ">> Starting geth node cluster"
+  docker run -dP --network ethnet -p 1111:8545 --name ethbn -h ethbn -it mev-geth-1559-image
+  docker run -dP --network ethnet -p 1112:8545 --name eth1 -it -h eth1 mev-geth-1559-image
+  docker run -dP --network ethnet -p 1113:8545 --name eth2 -it -h eth2 mev-geth-1559-image
+  docker run -dP --network ethnet -p 1114:8545 --name eth3 -it -h eth3 mev-geth-1559-image
+
+  echo ">> Starting boot node"
+  docker exec -u user -d ethbn bash config/genKey.sh
+  echo ">> Initializing node configuration"
+  docker exec -u user -d ethbn bash config/node.sh init
+  docker exec -u user -d eth1 bash config/node.sh init
+  docker exec -u user -d eth2 bash config/node.sh init
+  docker exec -u user -d eth3 bash config/node.sh init
+  start
+  exit
+fi
+
+if [[ $1 = "info" ]]; then
+  show_info
+  exit
+fi
+
+if [[ $1 = "login" ]]; then
+  docker exec -it $2 bash
+  exit
+fi
+
+if [[ $1 = "geth" ]]; then
+  docker exec -it $2 geth attach data/geth.ipc console
+  exit
+fi
+
+if [[ $1 = "log" ]]; then
+  docker exec $2 tail -f /home/user/node.log
+  exit
+fi
+
+if [[ $1 = "truffle" ]]; then
+  IP=`docker inspect $2 -f "{{.NetworkSettings.Networks.ethnet.IPAddress}}"`
+  sed 's/ETH_HOST/'$IP'/' ./truffle/.truffle-template > ./truffle/truffle-config.js
+  echo "Truffle config in /truffle switched to $2"
+  exit
+fi
+
+echo "Usage:"
+echo "       run deploy                            - create a new Ethereum network and start it"
+echo "       run start                             - start the existing containers"
+echo "       run stop                              - stop the running containers" 
+echo "       run login nodename                    - opens a console" 
+echo "       run geth nodename                     - open geth console"
+echo "       run log nodeName                      - displays node.log from node"
+echo "       run truffle nodeName                  - switchs truffle config to connect to nodeName"
