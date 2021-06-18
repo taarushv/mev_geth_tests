@@ -35,6 +35,7 @@
     * send sample tx (to a random peer RPC): 
         * `npm run sendTx`
 
+
 ```
 run deploy
 run start
@@ -42,6 +43,8 @@ run stop
 run login nodename
 run geth nodename
 run log nodeName
+
+^nodeName = ethbn/eth1/eth2/eth3
 ```
 Next steps: 
 
