@@ -96,11 +96,3 @@ if [[ $1 = "truffle" ]]; then
   exit
 fi
 
-echo "Usage:"
-echo "       run deploy                            - create a new Ethereum network and start it"
-echo "       run start                             - start the existing containers"
-echo "       run stop                              - stop the running containers" 
-echo "       run login nodename                    - opens a console" 
-echo "       run geth nodename                     - open geth console"
-echo "       run log nodeName                      - displays node.log from node"
-echo "       run truffle nodeName                  - switchs truffle config to connect to nodeName"
