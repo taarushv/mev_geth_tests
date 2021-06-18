@@ -44,8 +44,10 @@ run login nodename
 run geth nodename
 run log nodeName
 
-^nodeName = ethbn/eth1/eth2/eth3
 ```
+
+^nodeName = ethbn/eth1/eth2/eth3
+
 Next steps: 
 
 * Migrating to ethers, relevant https://github.com/ethers-io/ethers.js/issues/1685
