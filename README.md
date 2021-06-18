@@ -35,6 +35,14 @@
     * send sample tx (to a random peer RPC): 
         * `npm run sendTx`
 
+```
+run deploy
+run start
+run stop
+run login nodename
+run geth nodename
+run log nodeName
+```
 Next steps: 
 
 * Migrating to ethers, relevant https://github.com/ethers-io/ethers.js/issues/1685
