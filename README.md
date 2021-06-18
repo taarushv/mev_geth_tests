@@ -33,4 +33,4 @@
         * `./run stop` and `./run start`
 
     * send sample tx (to a random peer RPC): 
-        * npm run sendTx
+        * `npm run sendTx`
