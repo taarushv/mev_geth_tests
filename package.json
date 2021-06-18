@@ -4,5 +4,11 @@
   "main": "src/index.js",
   "repository": "https://github.com/taarushv/eip1559_mev-geth_tests.git",
   "author": "Taarush Vemulapalli <saikarthiktaarush.vemulapalli@sjsu.edu>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@ethereumjs/common": "^2.3.1",
+    "@ethereumjs/tx": "^3.2.1",
+    "bignumber.js": "^9.0.1",
+    "web3": "^1.3.6"
+  }
 }
