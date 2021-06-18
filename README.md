@@ -34,3 +34,15 @@
 
     * send sample tx (to a random peer RPC): 
         * `npm run sendTx`
+
+Next steps: 
+
+* Migrating to ethers, relevant https://github.com/ethers-io/ethers.js/issues/1685
+
+* Adjust gaslimit in the genesis.json file to test for the following conditions: 
+
+   * `Each block’s baseFeePerGas can increase/decrease by up to 12.5% depending on how full the block is relative to the previous one: e.g. 100% full -> +12.5%, 50% full -> same, 0% full -> -12.5%.`
+ 
+   * Making sure bundles don't break this^
+ 
+* Migrating old bundle flow rate script here to stress test the basefee + how tip must be adjusted to get included
