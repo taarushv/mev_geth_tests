@@ -8,7 +8,7 @@ const ethTx = require('@ethereumjs/tx');
 const localRPC = "http://localhost:8545/"
 
 // an array of RPCs (docker container's 8545 port of each instance binded to the following)
-const localRPCs = ["http://localhost:1112", "http://localhost:1113", "http://localhost:1114"]
+const localRPCs = ["http://localhost:1112"]
 const randomRPC =  Math.floor(Math.random() * localRPCs.length);
 
 const client = new Web3(new Web3.providers.HttpProvider(localRPCs[randomRPC]))
