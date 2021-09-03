@@ -1,6 +1,6 @@
 
 const { ethers } = require("ethers");
-const {signEIP1559Tx} = require('./1559-helpers')
+const {signEIP1559Tx} = require('../1559-helpers')
 
 const Web3 = require('web3');
 const web3Client = new Web3(new Web3.providers.HttpProvider("https://rpc.goerli.mudit.blog/"))

@@ -17,8 +17,8 @@ RUN npm install web3 express
 # Bump golang up to 1.15 from default ubuntu version (for `make all` to work)
 RUN apt-get purge -y golang*
 RUN apt-get install wget
-RUN wget https://golang.org/dl/go1.15.13.linux-amd64.tar.gz
-RUN tar -C /usr/local -xzf go1.15.13.linux-amd64.tar.gz
+RUN wget https://golang.org/dl/go1.17.linux-amd64.tar.gz
+RUN tar -C /usr/local -xzf go1.17.linux-amd64.tar.gz
 RUN mkdir ~/.go
 RUN GOROOT=/usr/local/go && GOPATH=~/.go && PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 RUN update-alternatives --install "/usr/bin/go" "go" "/usr/local/go/bin/go" 0
@@ -28,8 +28,8 @@ RUN update-alternatives --set go /usr/local/go/bin/go
 USER user
 
 RUN mkdir data config
-# We specify the specific branch with EIP1559 here, modify later accordingly
-RUN git clone --single-branch --branch jason/v1.11-mev https://github.com/flashbots/mev-geth.git
+# We specify the specific branch with megabundle here, modify later accordingly
+RUN git clone --single-branch --branch ivan-megabundles https://github.com/flashbots/mev-geth.git
 # make all because we need additional tools to setup the bootnode 
 RUN cd mev-geth && make geth && make all
 COPY --chown=user config /home/user/config

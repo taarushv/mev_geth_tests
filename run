@@ -46,6 +46,7 @@ if [[ $1 = "stop" ]]; then
 fi
 
 if [[ $1 = "deploy" ]]; then
+  # ./build.sh 
   docker rm -f `docker ps -aq` # delete old containers
   docker rm -f netstat
   docker network rm ethnet
@@ -53,10 +54,10 @@ if [[ $1 = "deploy" ]]; then
 
   # 1 bootnode + 3 mining nodes
   echo ">> Starting geth node cluster"
-  docker run -dP --network ethnet -p 1111:8545 --name ethbn -h ethbn -it mev-geth-1559-image
-  docker run -dP --network ethnet -p 1112:8545 --name eth1 -it -h eth1 mev-geth-1559-image
-  #docker run -dP --network ethnet -p 1113:8545 --name eth2 -it -h eth2 mev-geth-1559-image
-  #docker run -dP --network ethnet -p 1114:8545 --name eth3 -it -h eth3 mev-geth-1559-image
+  docker run -dP --network ethnet -p 1111:8545 --name ethbn -h ethbn -it mev-geth-megabundle-image
+  docker run -dP --network ethnet -p 1112:8545 --name eth1 -it -h eth1 mev-geth-megabundle-image
+  #docker run -dP --network ethnet -p 1113:8545 --name eth2 -it -h eth2 mev-geth-megabundle-image
+  #docker run -dP --network ethnet -p 1114:8545 --name eth3 -it -h eth3 mev-geth-megabundle-image
 
   echo ">> Starting boot node"
   docker exec -u user -d ethbn bash config/genKey.sh
