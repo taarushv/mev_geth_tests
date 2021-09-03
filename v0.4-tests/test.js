@@ -1,4 +1,5 @@
 const { ethers } = require("ethers");
+const {getSignedBundle} = require('./rlpHelper')
 const nodeRPC = "http://localhost:1112/"
 const ethersProvider = new ethers.providers.JsonRpcProvider(nodeRPC);
 const {signEIP1559Tx} = require('../1559-helpers')
@@ -13,15 +14,17 @@ const searcherWallet = new ethers.Wallet(searcherPk, ethersProvider)
 const zeroAddr = "0x0000000000000000000000000000000000000000"
 
 const briber = "0x91BeEE865B16e09CC8D81201717D68C769985e00"
-const relay = "0xfb11e78C4DaFec86237c2862441817701fdf197F"
 
+
+const relay = "0xfb11e78C4DaFec86237c2862441817701fdf197F"
+const relaypk = "0ceb0619ccbb1092e3d0e3874e4582abe5f9518262e465575ca837a7dad0703d"
 const getLatestBaseFee = async() => {
     // const block = await web3Client.eth.getBlock("latest")
     const block = await ethersProvider.getBlock("latest")
     return parseInt(block.baseFeePerGas.toString())
 }
 
-const submitBundle = async (baseFee, priorityFee, type) => {
+const submitBundle = async (baseFee, priorityFee) => {
     const nonce = await searcherWallet.getTransactionCount()
     const sample1559TxInput = {
         to: zeroAddr,
@@ -48,15 +51,27 @@ const submitBundle = async (baseFee, priorityFee, type) => {
     const signedMainTX = await signEIP1559Tx(sample1559TxInput, web3Client)
     const signedBribeTx = await signEIP1559Tx(sampleBribeTx, web3Client)
     const txs = [signedMainTX, signedBribeTx]
+    console.log(ethers.utils.keccak256(txs[0]), ethers.utils.keccak256(txs[1]))
     const blk = await ethersProvider.getBlockNumber()
+    console.log(txs)
+    // const sig = {
+    //   txs,
+    //   blockNumber: blk + 5,
+    //   minTimestamp: 0,
+    //   maxTimestamp: 0,
+    //   revertingTxHashes: []
+    // }
+    // const rlpEncoded = ethers.utils.RLP.encode(sig)
+    // console.log(rlpEncoded)
+    const signature = await getSignedBundle(txs, blk + 5, 0, 0, [], relaypk)
     const params = [
         {
           txs,
-          blockNumber: `0x${(blk + 5).toString(16)}`,
+          blockNumber: blk + 5,
           minTimestamp: 0,
           maxTimestamp: 0,
           revertingTxHashes: [],
-          relaySignature: relay
+          relaySignature: signature
         }
       ]
       const body = {
@@ -126,9 +141,7 @@ const submitBundle = async (baseFee, priorityFee, type) => {
 
 
 const main = async() => {
-    console.log(await submitBundle(await getLatestBaseFee(), 0, '1'))
-    // const balance = await ethersProvider.getBalance(searcherAddr)
-    // console.log(balance.toString())
+    await submitBundle(await getLatestBaseFee(), 0)
 }
 
 setTimeout(main, 1000)

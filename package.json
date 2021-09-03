@@ -9,6 +9,7 @@
     "@ethereumjs/common": "^2.3.1",
     "@ethereumjs/tx": "^3.2.1",
     "@flashbots/ethers-provider-bundle": "^0.3.2",
+    "axios": "^0.21.1",
     "bignumber.js": "^9.0.1",
     "ethers": "^5.4.0",
     "lowdb": "1.0",

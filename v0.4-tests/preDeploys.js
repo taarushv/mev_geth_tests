@@ -11,6 +11,9 @@ contract Bribe {
     function bribe() payable public {
         block.coinbase.transfer(msg.value);
     }
+    function intentionalRevert public {
+        revert();
+    }
 }
 `
 
