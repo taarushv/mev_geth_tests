@@ -22,7 +22,7 @@ const signEIP1559Tx = async (input, client) => {
         gasLimit: Web3.utils.toHex(input.gasLimit),
         maxFeePerGas: Web3.utils.toHex(input.baseFee + input.priorityFee),
         maxPriorityFeePerGas: Web3.utils.toHex(input.priorityFee), // 0 tip for now
-        chainId: 5,
+        chainId: 888,
         accessList: [],
         type: "0x02" // ensures the tx isn't legacy type
     }

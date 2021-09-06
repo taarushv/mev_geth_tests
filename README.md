@@ -2,30 +2,42 @@
 
 #### Mega bundle PR: https://github.com/flashbots/mev-geth/tree/ivan-megabundles
 
-1 node, 1 relay server, 2x keys
+1 node, 1 relay server, 4x eoa pairs (1x miner etherbase, 2x relays, 1x searcher)
+* Running 
 
+    * First, build the required docker images
 
+        * `./build.sh`
+
+    * Next, deploy + start the containers
+
+        * `./run deploy`
+    
+    * To stop/start after: 
+        * `./run stop` and `./run start`
+
+    * Test
+        * `python3 v0.4-tests-py/test.py`
 
 TODO: 
 
 re: https://github.com/flashbots/mev-geth/issues/52
 
-- [ ] Negative: Doesn't process bundles from untrusted relays
-- [ ] Negative: Errors if signature error from trusted relay
-- [ ] Negative: Payment conditional on block coinbase fails when expected
-- [ ] Negative: Bundle that reverts is ignored
-- [ ] Negative: Doesn't process bundles with revert txs
-- [ ] Negative: Doesn't process bundles with txs that use insufficient gas
+- [x] Negative: Doesn't process bundles from untrusted relays
+- [x] Negative: Errors if signature error from trusted relay
+- [x] Negative: Payment conditional on block coinbase fails when expected
+- [x] Negative: Bundle that reverts is ignored
+- [x] Negative: Doesn't process bundles with txs that use insufficient gas
 
 ------
-- [ ] Positive: Megabundle of various sizes, verify that they get mined and show up in top of bundle
-- [ ] Positive: TX fee payments (total profit computed correctly)
-- [ ] Positive: coinbase transfer fee payments (total profit computed correctly)
-- [ ] Positive: TX fee & coinbase transfer fee payments (total profit computed correctly)
-- [ ] Positive: Payment conditional on block coinbase succeeds when expected
-- [ ] Positive: Bundle with specified reverting txn is successfully mined
-- [ ] Positive: Miner selects the most profitable of N bundles or 1 megabundle, testing post sides.
-- [ ] Positive: Submit multiple megabundles from different relayers, verify most profitable one wins
+- [x] Positive: Megabundle of various sizes, verify that they get mined and show up in top of bundle
+- [x] Positive: TX fee payments (total profit computed correctly)
+- [x] Positive: coinbase transfer fee payments (total profit computed correctly)
+- [x] Positive: TX fee & coinbase transfer fee payments (total profit computed correctly)
+- [x] Positive: Payment conditional on block coinbase succeeds when expected
+- [x] Positive: Bundle with specified reverting txn is successfully mined
+- [x] Positive: Miner selects the most profitable of N bundles or 1 megabundle, testing post sides.
+- [x] Positive: Submit multiple megabundles from different relayers, verify most profitable one wins
 
 
 Keys: 
@@ -82,21 +94,6 @@ f78aa6e64de165f45db4d5ce18a9974a794f33f1debd074e57add0982b5b5b0f
       ![dashboard](./images/dashboard.png)
 
 
-* Running 
-
-    * First, build the required docker images
-
-        * `./build.sh`
-
-    * Next, deploy + start the containers
-
-        * `./run deploy`
-    
-    * To stop/start after: 
-        * `./run stop` and `./run start`
-
-    * send sample tx (to a random peer RPC): 
-        * `npm run sendTx`
 
 
 ```

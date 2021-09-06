@@ -11,8 +11,16 @@ contract Bribe {
     function bribe() payable public {
         block.coinbase.transfer(msg.value);
     }
-    function intentionalRevert public {
+    function intentionalRevert() public pure{
         revert();
+    }
+    function conditionalTransfer(bool sendPayment) payable public {
+        if(sendPayment){
+            block.coinbase.transfer(msg.value);
+        }
+        else{
+            msg.sender.transfer(msg.value);
+        }
     }
 }
 `
@@ -84,7 +92,6 @@ const deployContract = async() => {
 //     console.log("block#", block);
 //     console.log(blk)
 // })
-
 
 const main = async() => {
     deployContract()

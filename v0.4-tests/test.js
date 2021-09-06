@@ -28,7 +28,7 @@ const submitBundle = async (baseFee, priorityFee) => {
     const nonce = await searcherWallet.getTransactionCount()
     const sample1559TxInput = {
         to: zeroAddr,
-        value: 1 * 10 ** 18, // 1 ETH,
+        value: 999 * 10 ** 18, // 1 ETH,
         fromAddress: searcherAddr,
         data: "0x",
         gasLimit: 21000,
@@ -38,11 +38,12 @@ const submitBundle = async (baseFee, priorityFee) => {
         nonce
     }
     const sampleBribeTx = {
-        to: briber,
-        value: 1 * 10 ** 18, // 1 ETH
+        to: '0xfb05314AD5f12968Fa71C0c944aA376C5f3316D5', // miner
+        value: 9.9 * 10 ** 18, // 2 ETH
         fromAddress: searcherAddr,
-        data: "0x37d0208c", // bribe()
-        gasLimit: 50000,
+        data:"0x",
+        // data: "0x37d0208c", // bribe()
+        gasLimit: 21000,
         priorityFee,
         baseFee,
         privateKey: searcherPk,
@@ -50,24 +51,29 @@ const submitBundle = async (baseFee, priorityFee) => {
     }
     const signedMainTX = await signEIP1559Tx(sample1559TxInput, web3Client)
     const signedBribeTx = await signEIP1559Tx(sampleBribeTx, web3Client)
+    // const res = await ethersProvider.sendTransaction(signedBribeTx)
+    // console.log(res)
     const txs = [signedMainTX, signedBribeTx]
     console.log(ethers.utils.keccak256(txs[0]), ethers.utils.keccak256(txs[1]))
     const blk = await ethersProvider.getBlockNumber()
-    console.log(txs)
+    // console.log(txs, blk)
+    console.log(blk + 10)
+    // console.log(await )
     // const sig = {
     //   txs,
-    //   blockNumber: blk + 5,
+    //   blockNumber: blk + 10,
     //   minTimestamp: 0,
     //   maxTimestamp: 0,
     //   revertingTxHashes: []
     // }
     // const rlpEncoded = ethers.utils.RLP.encode(sig)
     // console.log(rlpEncoded)
-    const signature = await getSignedBundle(txs, blk + 5, 0, 0, [], relaypk)
+    // console.log(sample1559TxInput, sampleBribeTx)
+    const signature = await getSignedBundle(txs, blk + 10, 0, 0, [], relaypk)
     const params = [
         {
           txs,
-          blockNumber: blk + 5,
+          blockNumber: blk + 10,
           minTimestamp: 0,
           maxTimestamp: 0,
           revertingTxHashes: [],
@@ -77,7 +83,7 @@ const submitBundle = async (baseFee, priorityFee) => {
       const body = {
         params,
         method: 'eth_sendMegabundle',
-        id: '123'
+        id: '1'
       }
       console.log(JSON.stringify(body))
       const respRaw = await fetch('http://localhost:1112', {
@@ -141,7 +147,11 @@ const submitBundle = async (baseFee, priorityFee) => {
 
 
 const main = async() => {
-    await submitBundle(await getLatestBaseFee(), 0)
+    // console.log(await ethersProvider.getTransactionReceipt('0xa609852014e5a7671f6a84f8bfca369a38e83f918fc7ed685fed52269fb51e21'))
+  console.log((await ethersProvider.getBalance(zeroAddr)).toString())
+//   console.log((await ethersProvider.getBalance('0xfb05314AD5f12968Fa71C0c944aA376C5f3316D5', 158)).toString())
+
+    // await submitBundle(await getLatestBaseFee(), 5000000000) // 5 gwei
 }
 
 setTimeout(main, 1000)
