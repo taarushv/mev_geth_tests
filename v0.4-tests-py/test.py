@@ -141,7 +141,7 @@ def test_negative_two():
     megabundle['relaySignature'] = web3.Account.sign_message(
         eth_account.messages.encode_defunct(primitive=rlp_encoding),
         private_key=main_relay_pk
-    ).signature.hex() + '0xgibberish'
+    ).signature.hex() + '0xgibberish' #TODO: try diff cases with AB or 12
     response = send_request(megabundle, MEGABUNGLE_RPC)
     # check for sig error
     if(response['error']['code']== -32602 and response['error']['message']=='invalid argument 0: json: cannot unmarshal hex string of odd length into Go struct field SendMegabundleArgs.relaySignature of type hexutil.Bytes'):

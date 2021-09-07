@@ -58,18 +58,9 @@ const submitBundle = async (baseFee, priorityFee) => {
     const blk = await ethersProvider.getBlockNumber()
     // console.log(txs, blk)
     console.log(blk + 10)
-    // console.log(await )
-    // const sig = {
-    //   txs,
-    //   blockNumber: blk + 10,
-    //   minTimestamp: 0,
-    //   maxTimestamp: 0,
-    //   revertingTxHashes: []
-    // }
-    // const rlpEncoded = ethers.utils.RLP.encode(sig)
-    // console.log(rlpEncoded)
     // console.log(sample1559TxInput, sampleBribeTx)
     const signature = await getSignedBundle(txs, blk + 10, 0, 0, [], relaypk)
+    console.log(signature)
     const params = [
         {
           txs,
@@ -148,10 +139,10 @@ const submitBundle = async (baseFee, priorityFee) => {
 
 const main = async() => {
     // console.log(await ethersProvider.getTransactionReceipt('0xa609852014e5a7671f6a84f8bfca369a38e83f918fc7ed685fed52269fb51e21'))
-  console.log((await ethersProvider.getBalance(zeroAddr)).toString())
+  // console.log((await ethersProvider.getBalance(zeroAddr)).toString())
 //   console.log((await ethersProvider.getBalance('0xfb05314AD5f12968Fa71C0c944aA376C5f3316D5', 158)).toString())
 
-    // await submitBundle(await getLatestBaseFee(), 5000000000) // 5 gwei
+    await submitBundle(await getLatestBaseFee(), 7000000000) // 7 gwei
 }
 
 setTimeout(main, 1000)
